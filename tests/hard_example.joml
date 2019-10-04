@@ -1,5 +1,5 @@
-# Test file for TOML
-# Only this one tries to emulate a TOML file written by a user of the kind of parser writers probably hate
+# Test file for JOML
+# Only this one tries to emulate a JOML file written by a user of the kind of parser writers probably hate
 # This part you'll really hate
 
 [the]

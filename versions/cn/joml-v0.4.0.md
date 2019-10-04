@@ -1,24 +1,24 @@
-TOML v0.4.0
+JOML v0.4.0
 ===========
 
-全称: Tom的（语义）明显、（配置）最小化的语言。
-(Tom's Obvious, Minimal Language. By Tom Preston-Werner.)
+全称: Joe的（语义）明显、（配置）最小化的语言。
+(Joe's Obvious, Minimal Language. By Joe.)
 
 注: 此规范仍然会发生很多变化。在未标记为1.0之前，你应该假设它是不稳定的，请酌情采用。
 
 目标
 ----------
 
-TOML的目标是成为一个有明显语义而容易去阅读的最小化配置文件格式。
-TOML被设计成可以无歧义地被映射为哈希表，从而很容易的被解析成各种语言中的数据结构。
+JOML的目标是成为一个有明显语义而容易去阅读的最小化配置文件格式。
+JOML被设计成可以无歧义地被映射为哈希表，从而很容易的被解析成各种语言中的数据结构。
 
 示例
 -------
 
-```toml
-# 这是TOML文档示例.
+```joml
+# 这是JOML文档示例.
 
-title = "TOML Example"
+title = "JOML Example"
 
 [owner]
 name = "Lance Uppercut"
@@ -32,7 +32,7 @@ enabled = true
 
 [servers]
 
-  # 你可以按你的意愿缩进。TOML并不关心你是用Tab还是空格。
+  # 你可以按你的意愿缩进。JOML并不关心你是用Tab还是空格。
   [servers.alpha]
   ip = "10.0.0.1"
   dc = "eqdc10"
@@ -54,8 +54,8 @@ hosts = [
 规格
 ----
 
-* TOML是大小写敏感的。
-* TOML文件必须只包含UTF-8编码的Unicode字符。
+* JOML是大小写敏感的。
+* JOML文件必须只包含UTF-8编码的Unicode字符。
 * 空格是指制表符(0x09) 或空格 (0x20)。
 * 换行符是指LF(0x0A)或CRLF (0x0D0A).
 
@@ -64,7 +64,7 @@ hosts = [
 
 用符号#来表示注释：
 
-```toml
+```joml
 # I am a comment. Hear me roar. Roar.
 key = "value" # Yeah, you can do this.
 ```
@@ -75,7 +75,7 @@ key = "value" # Yeah, you can do this.
 
 **基本字符串** 是由引号括起来的任意字符串，除了那些必须要转义的，比如：双引号、反斜杠和控制字符(U+0000到U+001F)。
 
-```toml
+```joml
 "I'm a string. \"You can quote me\". Name\tJos\u00E9\nLocation\tSF."
 ```
 
@@ -95,20 +95,20 @@ key = "value" # Yeah, you can do this.
 
 任意Unicode字符都可能被转义为`\uXXXX` 或 `\UXXXXXXXX`的形式。这些转义代码必须是有效的Unicode[标量值](http://unicode.org/glossary/#unicode_scalar_value)。
 
-所有未出现在上面名单中的转义序列必须保留，如果使用，TOML应该会产生错误。
+所有未出现在上面名单中的转义序列必须保留，如果使用，JOML应该会产生错误。
 
-有时你需要表达一段文本（比如，翻译文件），或者是将很长的字符串分成多行。TOML很容易处理这种情况。
+有时你需要表达一段文本（比如，翻译文件），或者是将很长的字符串分成多行。JOML很容易处理这种情况。
 **多行基本字符串** 是被三引号括起来的字符串，并且允许换行。紧跟起始界定符后面的换行符会被剪掉，而其他的所有空格和换行字符仍然被保留。
 
-```toml
+```joml
 key1 = """
 Roses are red
 Violets are blue"""
 ```
 
-TOML解析器应该能正常处理不同平台下的换行符。
+JOML解析器应该能正常处理不同平台下的换行符。
 
-```toml
+```joml
 # 对于Unix系统，上面的多行字符串应该是这样的:
 key2 = "Roses are red\nViolets are blue"
 
@@ -121,7 +121,7 @@ key3 = "Roses are red\r\nViolets are blue"
 如果在起始界定符之后的第一个字符是反斜杠和一个换行符，那么从此位置到下个非空白字符或结束界定符之间的所有空格和换行符都会被剪掉。
 所有的转义序列对基本字符串都有效，也对多行基本字符串有效。
 
-```toml
+```joml
 # 以下每个字符串都是相同的
 key1 = "The quick brown fox jumps over the lazy dog."
 
@@ -143,24 +143,24 @@ key3 = """\
 引号不需要转义，除非它们的存在可能会造成提前关闭界定符。
 
 如果你需要频繁的指定Windows的路径或正则表达式，那么不得不添加转义符就会变的繁琐和容易出错。
-TOML支持完全不允许转义的字面量字符串来帮助你解决此类问题。
+JOML支持完全不允许转义的字面量字符串来帮助你解决此类问题。
 **字面量字符串** 是被单引号包含的字符串，跟基本字符串一样，它们一定是以单行出现:
 
-```toml
+```joml
 # 所见即所得.
 winpath  = 'C:\Users\nodejs\templates'
 winpath2 = '\\ServerX\admin$\system32\'
-quoted   = 'Tom "Dubs" Preston-Werner'
+quoted   = 'Joe "Dubs"'
 regex    = '<\i\c*\s*>'
 ```
 
 因为没有转义，所以在一个被单引号封闭的字面量字符串里面没有办法写单引号。
-幸运的是，TOML支持多行版本的字面量字符串来解决这个问题。
+幸运的是，JOML支持多行版本的字面量字符串来解决这个问题。
 **多行字面量字符串** 是被三个单引号括起来的字符串，并且允许换行。
 跟字面量字符串一样，这也没有任何转义。
 紧跟起始界定符的换行符会被剪掉。界定符之间的所有其他内容都会被按照原样解释而无需修改。
 
-```toml
+```joml
 regex2 = '''I [dw]on't need \d{2} apples'''
 lines  = '''
 The first newline is
@@ -177,7 +177,7 @@ trimmed in raw strings.
 
 整数就是没有小数点的数字。正数前面也可以用加号，负数需要用负号前缀表示。
 
-```toml
+```joml
 +99
 42
 0
@@ -186,7 +186,7 @@ trimmed in raw strings.
 
 对于大整数，你可以用下划线提高可读性。每个下划线两边至少包含一个数字。
 
-```toml
+```joml
 1_000
 5_349_221
 1_2_3_4_5     # 有效，但不建议这样写
@@ -204,7 +204,7 @@ trimmed in raw strings.
 一个浮点数由整数部分（可能是带有加号或减号前缀的）和小数部分和（或）指数部分组成的数。
 如果只有小数部分和指数部分，那么小数部分必须放在指数部分前面。
 
-```toml
+```joml
 # 小数
 +1.0
 3.1415
@@ -226,7 +226,7 @@ trimmed in raw strings.
 和整数类似，你可以用下划线来提高可读性。每个下划线两边至少包含一个数字。
 
 
-```toml
+```joml
 9_224_617.445_991_228_313
 1e1_000
 ```
@@ -238,7 +238,7 @@ trimmed in raw strings.
 
 布尔值是小写的true和false。
 
-```toml
+```joml
 true
 false
 ```
@@ -248,7 +248,7 @@ false
 
 时间日期是[RFC 3339](http://tools.ietf.org/html/rfc3339)中的时间格式。
 
-```toml
+```joml
 1979-05-27T07:32:00Z
 1979-05-27T00:32:00-07:00
 1979-05-27T00:32:00.999999-07:00
@@ -260,7 +260,7 @@ false
 数组是由方括号包括的基本单元。空格会被忽略。
 数组中的元素由逗号分隔。数据类型不能混用（所有的字符串均为同一类型）。
 
-```toml
+```joml
 [ 1, 2, 3 ]
 [ "red", "yellow", "green" ]
 [ [ 1, 2 ], [3, 4, 5] ]
@@ -272,7 +272,7 @@ false
 数组也可以多行。所以，除了忽略空格之外，数组也忽略了括号之间的换行符。
 在结束括号之前存在逗号是可以的。
 
-```toml
+```joml
 key = [
   1, 2, 3
 ]
@@ -289,7 +289,7 @@ key = [
 表（也被称为哈希表或字典）是键值对集合。表格名由方括号包裹，自成一行。
 注意和数组相区分，数组里只有值。
 
-```toml
+```joml
 [table]
 ```
 
@@ -304,7 +304,7 @@ key = [
 
 表中的键值对是无序的。
 
-```toml
+```joml
 [table]
 key = "value"
 bare_key = "value"
@@ -318,7 +318,7 @@ bare-key = "value"
 点（.）严禁在裸键中使用，因为它被用来表示嵌套表！
 命名规则为被点分隔的部分应该属于同一个键。（见上文）。
 
-```toml
+```joml
 [dog."tater.man"]
 type = "pug"
 ```
@@ -331,16 +331,16 @@ type = "pug"
 
 被点分隔部分周围的空格都会被忽略，但是最好不要使用任何多余的空格。
 
-```toml
+```joml
 [a.b.c]          # this is best practice
 [ d.e.f ]        # same as [d.e.f]
 [ g .  h  . i ]  # same as [g.h.i]
 [ j . "ʞ" . l ]  # same as [j."ʞ".l]
 ```
 
-如果你不想，你可以完全不去指定父表（super-tables）。TOML知道该如何处理。
+如果你不想，你可以完全不去指定父表（super-tables）。JOML知道该如何处理。
 
-```toml
+```joml
 # [x] 你
 # [x.y] 不
 # [x.y.z] 需要这些
@@ -351,7 +351,7 @@ type = "pug"
 
 只要父表没有被直接定义，而且没有定义特定的键，你可以继续写入。
 
-```toml
+```joml
 [a.b]
 c = 1
 
@@ -361,7 +361,7 @@ d = 2
 
 你不能多次定义键或表。这样做是无效的。
 
-```toml
+```joml
 # 不要这么做
 
 [a]
@@ -371,7 +371,7 @@ b = 1
 c = 2
 ```
 
-```toml
+```joml
 # 也不要这样做
 
 [a]
@@ -384,8 +384,8 @@ c = 2
 所有的表名和键一定不能为空。
 All table names and keys must be non-empty.
 
-```toml
-# 无效TOML
+```joml
+# 无效JOML
 []
 [a.]
 [a..b]
@@ -404,16 +404,16 @@ All table names and keys must be non-empty.
 内联表一般以单行出现。不允许换行符出现在大括号之间，除非是包含在值中的有效字符。
 即便如此，也强烈建议不要在把内联表分成多行。如果你有这种需求，那么你应该去用标准表。
 
-```toml
-name = { first = "Tom", last = "Preston-Werner" }
+```joml
+name = { first = "Joe", last = "Preston-Werner" }
 point = { x = 1, y = 2 }
 ```
 
 上面的内联表完全等同于下面的标准表定义：
 
-```toml
+```joml
 [name]
-first = "Tom"
+first = "Joe"
 last = "Preston-Werner"
 
 [point]
@@ -428,7 +428,7 @@ y = 2
 使用相同双括号名的每个表都是数组中的元素。表的顺序跟书写顺序一致。
 没有键值对的双括号表会被当作空表。
 
-```toml
+```joml
 [[products]]
 name = "Hammer"
 sku = 738594937
@@ -455,7 +455,7 @@ color = "gray"
 
 你也能创建内嵌的表数组。只需要对子表使用相同的双括号语法就可以。每个双括号子表将属于其上面最近定义的那个表。
 
-```toml
+```joml
 [[fruit]]
   name = "apple"
 
@@ -476,7 +476,7 @@ color = "gray"
     name = "plantain"
 ```
 
-上面的TOML对应于下面的JSON格式：
+上面的JOML对应于下面的JSON格式：
 
 ```json
 {
@@ -504,8 +504,8 @@ color = "gray"
 
 试图用已经定义的数组的名称来定义的正常表，在解析的时候一定会抛出错误。
 
-```toml
-# INVALID TOML DOC
+```joml
+# INVALID JOML DOC
 [[fruit]]
   name = "apple"
 
@@ -519,7 +519,7 @@ color = "gray"
 
 你也可以在适合的地方使用内联表。
 
-```toml
+```joml
 points = [ { x = 1, y = 2, z = 3 },
            { x = 7, y = 8, z = 9 },
            { x = 2, y = 4, z = 8 } ]
@@ -542,7 +542,7 @@ points = [ { x = 1, y = 2, z = 3 },
 
 哈哈！想帮忙么？发pull request过来。或者编写一个解析器。你可以勇敢一点。
 
-使用TOML的项目
+使用JOML的项目
 -------------------
 
 - [Cargo](http://doc.crates.io/) - Rust语言的包管理器。
@@ -556,100 +556,100 @@ points = [ { x = 1, y = 2, z = 3 },
 如果你有一个实现，请发一个合并请求，把你的实现加入到这个列表中。
 请在你实现的解析器README中标记你的解析器支持的提交SHA1或版本号。
 
-- C#/.NET - https://github.com/LBreedlove/Toml.net
-- C#/.NET - https://github.com/rossipedia/toml-net
-- C#/.NET - https://github.com/RichardVasquez/TomlDotNet
-- C#/.NET - https://github.com/azyobuzin/HyperTomlProcessor
-- C (@ajwans) - https://github.com/ajwans/libtoml
-- C (@mzgoddard) - https://github.com/mzgoddard/tomlc
-- C++ (@evilncrazy) - https://github.com/evilncrazy/ctoml
-- C++ (@skystrife) - https://github.com/skystrife/cpptoml
-- C++ (@mayah) - https://github.com/mayah/tinytoml
-- Clojure (@lantiga) - https://github.com/lantiga/clj-toml
+- C#/.NET - https://github.com/LBreedlove/Joel.net
+- C#/.NET - https://github.com/rossipedia/joml-net
+- C#/.NET - https://github.com/RichardVasquez/JoelDotNet
+- C#/.NET - https://github.com/azyobuzin/HyperJoelProcessor
+- C (@ajwans) - https://github.com/ajwans/libjoml
+- C (@mzgoddard) - https://github.com/mzgoddard/jomlc
+- C++ (@evilncrazy) - https://github.com/evilncrazy/cjoml
+- C++ (@skystrife) - https://github.com/skystrife/cppjoml
+- C++ (@mayah) - https://github.com/mayah/tinyjoml
+- Clojure (@lantiga) - https://github.com/lantiga/clj-joml
 - Clojure (@manicolosi) - https://github.com/manicolosi/clojoml
-- CoffeeScript (@biilmann) - https://github.com/biilmann/coffee-toml
-- Common Lisp (@pnathan) - https://github.com/pnathan/pp-toml
-- D - https://github.com/iccodegr/toml.d
-- Dart (@just95) - https://github.com/just95/toml.dart
-- Erlang - https://github.com/kalta/etoml.git
-- Erlang - https://github.com/kaos/tomle
-- Emacs Lisp (@gongoZ) - https://github.com/gongo/emacs-toml
-- Go (@thompelletier) - https://github.com/pelletier/go-toml
-- Go (@laurent22) - https://github.com/laurent22/toml-go
-- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/toml
-- Go (@achun) - https://github.com/achun/tom-toml
-- Go (@naoina) - https://github.com/naoina/toml
-- Haskell (@seliopou) - https://github.com/seliopou/toml
-- Haxe (@raincole) - https://github.com/raincole/haxetoml
-- Java (@agrison) - https://github.com/agrison/jtoml
-- Java (@johnlcox) - https://github.com/johnlcox/toml4j
-- Java (@mwanji) - https://github.com/mwanji/toml4j
-- Java - https://github.com/asafh/jtoml
-- Java w/ ANTLR (@MatthiasSchuetz) - https://github.com/mschuetz/toml
-- Julia (@pygy) - https://github.com/pygy/TOML.jl
-- Literate CoffeeScript (@JonathanAbrams) - https://github.com/JonAbrams/tomljs
-- Nim (@ziotom78) - https://github.com/ziotom78/parsetoml
-- node.js/browser - https://github.com/ricardobeat/toml.js (npm install tomljs)
-- node.js - https://github.com/BinaryMuse/toml-node
+- CoffeeScript (@biilmann) - https://github.com/biilmann/coffee-joml
+- Common Lisp (@pnathan) - https://github.com/pnathan/pp-joml
+- D - https://github.com/iccodegr/joml.d
+- Dart (@just95) - https://github.com/just95/joml.dart
+- Erlang - https://github.com/kalta/ejoml.git
+- Erlang - https://github.com/kaos/jomle
+- Emacs Lisp (@gongoZ) - https://github.com/gongo/emacs-joml
+- Go (@thompelletier) - https://github.com/pelletier/go-joml
+- Go (@laurent22) - https://github.com/laurent22/joml-go
+- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/joml
+- Go (@achun) - https://github.com/achun/tom-joml
+- Go (@naoina) - https://github.com/naoina/joml
+- Haskell (@seliopou) - https://github.com/seliopou/joml
+- Haxe (@raincole) - https://github.com/raincole/haxejoml
+- Java (@agrison) - https://github.com/agrison/jjoml
+- Java (@johnlcox) - https://github.com/johnlcox/joml4j
+- Java (@mwanji) - https://github.com/mwanji/joml4j
+- Java - https://github.com/asafh/jjoml
+- Java w/ ANTLR (@MatthiasSchuetz) - https://github.com/mschuetz/joml
+- Julia (@pygy) - https://github.com/pygy/JOML.jl
+- Literate CoffeeScript (@JonathanAbrams) - https://github.com/JonAbrams/jomljs
+- Nim (@ziotom78) - https://github.com/ziotom78/parsejoml
+- node.js/browser - https://github.com/ricardobeat/joml.js (npm install jomljs)
+- node.js - https://github.com/BinaryMuse/joml-node
 - node.js/browser (@redhotvengeance) - https://github.com/redhotvengeance/topl (topl npm package)
-- node.js/browser (@alexanderbeletsky) - https://github.com/alexanderbeletsky/toml-js (npm browser amd)
-- Objective C (@mneorr) - https://github.com/mneorr/toml-objc.git
-- Objective-C (@SteveStreza) - https://github.com/amazingsyco/TOML
+- node.js/browser (@alexanderbeletsky) - https://github.com/alexanderbeletsky/joml-js (npm browser amd)
+- Objective C (@mneorr) - https://github.com/mneorr/joml-objc.git
+- Objective-C (@SteveStreza) - https://github.com/amazingsyco/JOML
 - OCaml (@mackwic) https://github.com/mackwic/to.ml
-- Perl (@alexkalderimis) - https://github.com/alexkalderimis/config-toml.pl
-- Perl - https://github.com/dlc/toml
-- PHP (@leonelquinteros) - https://github.com/leonelquinteros/php-toml.git
-- PHP (@jimbomoss) - https://github.com/jamesmoss/toml
-- PHP (@coop182) - https://github.com/coop182/toml-php
-- PHP (@checkdomain) - https://github.com/checkdomain/toml
-- PHP (@zidizei) - https://github.com/zidizei/toml-php
-- PHP (@yosymfony) - https://github.com/yosymfony/toml
-- Python (@f03lipe) - https://github.com/f03lipe/toml-python
-- Python (@uiri) - https://github.com/uiri/toml
-- Python - https://github.com/bryant/pytoml
-- Python (@elssar) - https://github.com/elssar/tomlgun
-- Python (@marksteve) - https://github.com/marksteve/toml-ply
-- Python (@hit9) - https://github.com/hit9/toml.py
-- Racket (@greghendershott) - https://github.com/greghendershott/toml
-- Ruby (@jm) - https://github.com/jm/toml (toml gem)
-- Ruby (@eMancu) - https://github.com/eMancu/toml-rb (toml-rb gem)
-- Ruby (@charliesome) - https://github.com/charliesome/toml2 (toml2 gem)
-- Ruby (@sandeepravi) - https://github.com/sandeepravi/tomlp (tomlp gem)
-- Rust (@mneumann) - https://github.com/mneumann/rust-toml
-- Rust (@alexcrichton) - https://github.com/alexcrichton/toml-rs
+- Perl (@alexkalderimis) - https://github.com/alexkalderimis/config-joml.pl
+- Perl - https://github.com/dlc/joml
+- PHP (@leonelquinteros) - https://github.com/leonelquinteros/php-joml.git
+- PHP (@jimbomoss) - https://github.com/jamesmoss/joml
+- PHP (@coop182) - https://github.com/coop182/joml-php
+- PHP (@checkdomain) - https://github.com/checkdomain/joml
+- PHP (@zidizei) - https://github.com/zidizei/joml-php
+- PHP (@yosymfony) - https://github.com/yosymfony/joml
+- Python (@f03lipe) - https://github.com/f03lipe/joml-python
+- Python (@uiri) - https://github.com/uiri/joml
+- Python - https://github.com/bryant/pyjoml
+- Python (@elssar) - https://github.com/elssar/jomlgun
+- Python (@marksteve) - https://github.com/marksteve/joml-ply
+- Python (@hit9) - https://github.com/hit9/joml.py
+- Racket (@greghendershott) - https://github.com/greghendershott/joml
+- Ruby (@jm) - https://github.com/jm/joml (joml gem)
+- Ruby (@eMancu) - https://github.com/eMancu/joml-rb (joml-rb gem)
+- Ruby (@charliesome) - https://github.com/charliesome/joml2 (joml2 gem)
+- Ruby (@sandeepravi) - https://github.com/sandeepravi/jomlp (jomlp gem)
+- Rust (@mneumann) - https://github.com/mneumann/rust-joml
+- Rust (@alexcrichton) - https://github.com/alexcrichton/joml-rs
 - Scala - https://github.com/axelarge/tomelette
 
 校验
 ----------
 
-- Go (@BurntSushi) - https://github.com/BurntSushi/toml/tree/master/cmd/tomlv
+- Go (@BurntSushi) - https://github.com/BurntSushi/joml/tree/master/cmd/jomlv
 
-TOML解码器和编码器测试套件（语言无关）
+JOML解码器和编码器测试套件（语言无关）
 -----------------------------------------------------------
 
-- toml-test (@BurntSushi) - https://github.com/BurntSushi/toml-test
+- joml-test (@BurntSushi) - https://github.com/BurntSushi/joml-test
 
 支持的编辑器
 --------------
 
-- Atom - https://github.com/atom/language-toml
-- Emacs (@dryman) - https://github.com/dryman/toml-mode.el
-- Notepad++ (@fireforge) - https://github.com/fireforge/toml-notepadplusplus
-- Sublime Text 2 & 3 (@Gakai) - https://github.com/Gakai/sublime_toml_highlighting
+- Atom - https://github.com/atom/language-joml
+- Emacs (@dryman) - https://github.com/dryman/joml-mode.el
+- Notepad++ (@fireforge) - https://github.com/fireforge/joml-notepadplusplus
+- Sublime Text 2 & 3 (@Gakai) - https://github.com/Gakai/sublime_joml_highlighting
 - Synwrite - http://uvviewsoft.com/synwrite/download.html ; call Options/ Addons manager/ Install
-- TextMate (@infininight) - https://github.com/textmate/toml.tmbundle
-- Vim (@cespare) - https://github.com/cespare/vim-toml
+- TextMate (@infininight) - https://github.com/textmate/joml.tmbundle
+- Vim (@cespare) - https://github.com/cespare/vim-joml
 
 编码器
 --------------
 
-- Dart (@just95) - https://github.com/just95/toml.dart
-- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/toml
-- PHP (@ayushchd) - https://github.com/ayushchd/php-toml-encoder
+- Dart (@just95) - https://github.com/just95/joml.dart
+- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/joml
+- PHP (@ayushchd) - https://github.com/ayushchd/php-joml-encoder
 
 转换器
 ----------
 
 - remarshal (@dbohdan) - https://github.com/dbohdan/remarshal
-- yaml2toml (@jtyr) - https://github.com/jtyr/yaml2toml-converter
-- yaml2toml.dart (@just95) - https://github.com/just95/yaml2toml.dart
+- yaml2joml (@jtyr) - https://github.com/jtyr/yaml2joml-converter
+- yaml2joml.dart (@just95) - https://github.com/just95/yaml2joml.dart

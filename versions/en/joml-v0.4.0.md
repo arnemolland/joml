@@ -1,9 +1,9 @@
-TOML v0.4.0
+JOML v0.4.0
 ===========
 
-Tom's Obvious, Minimal Language.
+Joe's Obvious, Minimal Language.
 
-By Tom Preston-Werner.
+By Joe.
 
 Be warned, this spec is still changing a lot. Until it's marked as 1.0, you
 should assume that it is unstable and act accordingly.
@@ -11,17 +11,17 @@ should assume that it is unstable and act accordingly.
 Objectives
 ----------
 
-TOML aims to be a minimal configuration file format that's easy to read due to
-obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
+JOML aims to be a minimal configuration file format that's easy to read due to
+obvious semantics. JOML is designed to map unambiguously to a hash table. JOML
 should be easy to parse into data structures in a wide variety of languages.
 
 Example
 -------
 
-```toml
-# This is a TOML document. Boom.
+```joml
+# This is a JOML document. Boom.
 
-title = "TOML Example"
+title = "JOML Example"
 
 [owner]
 name = "Lance Uppercut"
@@ -35,7 +35,7 @@ enabled = true
 
 [servers]
 
-  # You can indent as you please. Tabs or spaces. TOML don't care.
+  # You can indent as you please. Tabs or spaces. JOML don't care.
   [servers.alpha]
   ip = "10.0.0.1"
   dc = "eqdc10"
@@ -57,8 +57,8 @@ hosts = [
 Spec
 ----
 
-* TOML is case sensitive.
-* A TOML file must contain only UTF-8 encoded Unicode characters.
+* JOML is case sensitive.
+* A JOML file must contain only UTF-8 encoded Unicode characters.
 * Whitespace means tab (0x09) or space (0x20).
 * Newline means LF (0x0A) or CRLF (0x0D0A).
 
@@ -68,7 +68,7 @@ Comment
 Speak your mind with the hash symbol. They go from the symbol to the end of the
 line.
 
-```toml
+```joml
 # I am a comment. Hear me roar. Roar.
 key = "value" # Yeah, you can do this.
 ```
@@ -83,7 +83,7 @@ multi-line literal. All strings must contain only valid UTF-8 characters.
 be used except those that must be escaped: quotation mark, backslash, and the
 control characters (U+0000 to U+001F).
 
-```toml
+```joml
 "I'm a string. \"You can quote me\". Name\tJos\u00E9\nLocation\tSF."
 ```
 
@@ -104,25 +104,25 @@ For convenience, some popular characters have a compact escape sequence.
 Any Unicode character may be escaped with the `\uXXXX` or `\UXXXXXXXX` forms.
 The escape codes must be valid Unicode [scalar values](http://unicode.org/glossary/#unicode_scalar_value).
 
-All other escape sequences not listed above are reserved and, if used, TOML
+All other escape sequences not listed above are reserved and, if used, JOML
 should produce an error.
 
 Sometimes you need to express passages of text (e.g. translation files) or would
-like to break up a very long string into multiple lines. TOML makes this easy.
+like to break up a very long string into multiple lines. JOML makes this easy.
 **Multi-line basic strings** are surrounded by three quotation marks on each
 side and allow newlines. A newline immediately following the opening delimiter
 will be trimmed. All other whitespace and newline characters remain intact.
 
-```toml
+```joml
 key1 = """
 Roses are red
 Violets are blue"""
 ```
 
-TOML parsers should feel free to normalize newline to whatever makes sense for
+JOML parsers should feel free to normalize newline to whatever makes sense for
 their platform.
 
-```toml
+```joml
 # On a Unix system, the above multi-line string will most likely be the same as:
 key2 = "Roses are red\nViolets are blue"
 
@@ -138,7 +138,7 @@ they will both be trimmed along with all whitespace and newlines up to the next
 non-whitespace character or closing delimiter. All of the escape sequences that
 are valid for basic strings are also valid for multi-line basic strings.
 
-```toml
+```joml
 # The following strings are byte-for-byte equivalent:
 key1 = "The quick brown fox jumps over the lazy dog."
 
@@ -162,27 +162,27 @@ escaped unless their presence would create a premature closing delimiter.
 
 If you're a frequent specifier of Windows paths or regular expressions, then
 having to escape backslashes quickly becomes tedious and error prone. To help,
-TOML supports literal strings where there is no escaping allowed at all.
+JOML supports literal strings where there is no escaping allowed at all.
 **Literal strings** are surrounded by single quotes. Like basic strings, they
 must appear on a single line:
 
-```toml
+```joml
 # What you see is what you get.
 winpath  = 'C:\Users\nodejs\templates'
 winpath2 = '\\ServerX\admin$\system32\'
-quoted   = 'Tom "Dubs" Preston-Werner'
+quoted   = 'Joe "Dubs"'
 regex    = '<\i\c*\s*>'
 ```
 
 Since there is no escaping, there is no way to write a single quote inside a
-literal string enclosed by single quotes. Luckily, TOML supports a multi-line
+literal string enclosed by single quotes. Luckily, JOML supports a multi-line
 version of literal strings that solves this problem. **Multi-line literal
 strings** are surrounded by three single quotes on each side and allow newlines.
 Like literal strings, there is no escaping whatsoever. A newline immediately
 following the opening delimiter will be trimmed. All other content between the
 delimiters is interpreted as-is without modification.
 
-```toml
+```joml
 regex2 = '''I [dw]on't need \d{2} apples'''
 lines  = '''
 The first newline is
@@ -201,7 +201,7 @@ Integer
 Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
 Negative numbers are prefixed with a minus sign.
 
-```toml
+```joml
 +99
 42
 0
@@ -211,7 +211,7 @@ Negative numbers are prefixed with a minus sign.
 For large numbers, you may use underscores to enhance readability. Each
 underscore must be surrounded by at least one digit.
 
-```toml
+```joml
 1_000
 5_349_221
 1_2_3_4_5     # valid but inadvisable
@@ -232,7 +232,7 @@ sign) followed by a fractional part and/or an exponent part. If both a
 fractional part and exponent part are present, the fractional part must precede
 the exponent part.
 
-```toml
+```joml
 # fractional
 +1.0
 3.1415
@@ -255,7 +255,7 @@ An exponent part is an E (upper or lower case) followed by an integer part
 Similar to integers, you may use underscores to enhance readability. Each
 underscore must be surrounded by at least one digit.
 
-```toml
+```joml
 9_224_617.445_991_228_313
 1e1_000
 ```
@@ -267,7 +267,7 @@ Boolean
 
 Booleans are just the tokens you're used to. Always lowercase.
 
-```toml
+```joml
 true
 false
 ```
@@ -277,7 +277,7 @@ Datetime
 
 Datetimes are [RFC 3339](http://tools.ietf.org/html/rfc3339) dates.
 
-```toml
+```joml
 1979-05-27T07:32:00Z
 1979-05-27T00:32:00-07:00
 1979-05-27T00:32:00.999999-07:00
@@ -290,7 +290,7 @@ Arrays are square brackets with other primitives inside. Whitespace is ignored.
 Elements are separated by commas. Data types may not be mixed (though all string
 types should be considered the same type).
 
-```toml
+```joml
 [ 1, 2, 3 ]
 [ "red", "yellow", "green" ]
 [ [ 1, 2 ], [3, 4, 5] ]
@@ -303,7 +303,7 @@ Arrays can also be multiline. So in addition to ignoring whitespace, arrays also
 ignore newlines between the brackets. Terminating commas are ok before the
 closing bracket.
 
-```toml
+```joml
 key = [
   1, 2, 3
 ]
@@ -321,7 +321,7 @@ Tables (also known as hash tables or dictionaries) are collections of key/value
 pairs. They appear in square brackets on a line by themselves. You can tell them
 apart from arrays because arrays are only ever values.
 
-```toml
+```joml
 [table]
 ```
 
@@ -337,7 +337,7 @@ names. Best practice is to use bare keys except when absolutely necessary.
 
 Key/value pairs within tables are not guaranteed to be in any specific order.
 
-```toml
+```joml
 [table]
 key = "value"
 bare_key = "value"
@@ -351,7 +351,7 @@ bare-key = "value"
 Dots are prohibited in bare keys because dots are used to signify nested tables!
 Naming rules for each dot separated part are the same as for keys (see above).
 
-```toml
+```joml
 [dog."tater.man"]
 type = "pug"
 ```
@@ -365,17 +365,17 @@ In JSON land, that would give you the following structure:
 Whitespace around dot-separated parts is ignored, however, best practice is to
 not use any extraneous whitespace.
 
-```toml
+```joml
 [a.b.c]          # this is best practice
 [ d.e.f ]        # same as [d.e.f]
 [ g .  h  . i ]  # same as [g.h.i]
 [ j . "ʞ" . l ]  # same as [j."ʞ".l]
 ```
 
-You don't need to specify all the super-tables if you don't want to. TOML knows
+You don't need to specify all the super-tables if you don't want to. JOML knows
 how to do it for you.
 
-```toml
+```joml
 # [x] you
 # [x.y] don't
 # [x.y.z] need these
@@ -387,7 +387,7 @@ Empty tables are allowed and simply have no key/value pairs within them.
 As long as a super-table hasn't been directly defined and hasn't defined a
 specific key, you may still write to it.
 
-```toml
+```joml
 [a.b]
 c = 1
 
@@ -397,7 +397,7 @@ d = 2
 
 You cannot define any key or table more than once. Doing so is invalid.
 
-```toml
+```joml
 # DO NOT DO THIS
 
 [a]
@@ -407,7 +407,7 @@ b = 1
 c = 2
 ```
 
-```toml
+```joml
 # DO NOT DO THIS EITHER
 
 [a]
@@ -419,8 +419,8 @@ c = 2
 
 All table names and keys must be non-empty.
 
-```toml
-# NOT VALID TOML
+```joml
+# NOT VALID JOML
 []
 [a.]
 [a..b]
@@ -444,17 +444,17 @@ between the curly braces unless they are valid within a value. Even so, it is
 strongly discouraged to break an inline table onto multiples lines. If you find
 yourself gripped with this desire, it means you should be using standard tables.
 
-```toml
-name = { first = "Tom", last = "Preston-Werner" }
+```joml
+name = { first = "Joe", last = "Preston-Werner" }
 point = { x = 1, y = 2 }
 ```
 
 The inline tables above are identical to the following standard table
 definitions:
 
-```toml
+```joml
 [name]
-first = "Tom"
+first = "Joe"
 last = "Preston-Werner"
 
 [point]
@@ -471,7 +471,7 @@ double bracketed name will be an element in the array. The tables are inserted
 in the order encountered. A double bracketed table without any key/value pairs
 will be considered an empty table.
 
-```toml
+```joml
 [[products]]
 name = "Hammer"
 sku = 738594937
@@ -500,7 +500,7 @@ You can create nested arrays of tables as well. Just use the same double bracket
 syntax on sub-tables. Each double-bracketed sub-table will belong to the most
 recently defined table element above it.
 
-```toml
+```joml
 [[fruit]]
   name = "apple"
 
@@ -521,7 +521,7 @@ recently defined table element above it.
     name = "plantain"
 ```
 
-The above TOML maps to the following JSON.
+The above JOML maps to the following JSON.
 
 ```json
 {
@@ -550,8 +550,8 @@ The above TOML maps to the following JSON.
 Attempting to define a normal table with the same name as an already established
 array must produce an error at parse time.
 
-```toml
-# INVALID TOML DOC
+```joml
+# INVALID JOML DOC
 [[fruit]]
   name = "apple"
 
@@ -565,7 +565,7 @@ array must produce an error at parse time.
 
 You may also use inline tables where appropriate:
 
-```toml
+```joml
 points = [ { x = 1, y = 2, z = 3 },
            { x = 7, y = 8, z = 9 },
            { x = 2, y = 4, z = 8 } ]
@@ -588,7 +588,7 @@ Oh god, you're right
 
 Yuuuup. Wanna help? Send a pull request. Or write a parser. BE BRAVE.
 
-Projects using TOML
+Projects using JOML
 -------------------
 
 - [Cargo](http://doc.crates.io/) - The Rust language's package manager.
@@ -602,100 +602,100 @@ Implementations
 If you have an implementation, send a pull request adding to this list. Please
 note the commit SHA1 or version tag that your parser supports in your Readme.
 
-- C#/.NET - https://github.com/LBreedlove/Toml.net
-- C#/.NET - https://github.com/rossipedia/toml-net
-- C#/.NET - https://github.com/RichardVasquez/TomlDotNet
-- C#/.NET - https://github.com/azyobuzin/HyperTomlProcessor
-- C (@ajwans) - https://github.com/ajwans/libtoml
-- C (@mzgoddard) - https://github.com/mzgoddard/tomlc
-- C++ (@evilncrazy) - https://github.com/evilncrazy/ctoml
-- C++ (@skystrife) - https://github.com/skystrife/cpptoml
-- C++ (@mayah) - https://github.com/mayah/tinytoml
-- Clojure (@lantiga) - https://github.com/lantiga/clj-toml
+- C#/.NET - https://github.com/LBreedlove/Joel.net
+- C#/.NET - https://github.com/rossipedia/joml-net
+- C#/.NET - https://github.com/RichardVasquez/JoelDotNet
+- C#/.NET - https://github.com/azyobuzin/HyperJoelProcessor
+- C (@ajwans) - https://github.com/ajwans/libjoml
+- C (@mzgoddard) - https://github.com/mzgoddard/jomlc
+- C++ (@evilncrazy) - https://github.com/evilncrazy/cjoml
+- C++ (@skystrife) - https://github.com/skystrife/cppjoml
+- C++ (@mayah) - https://github.com/mayah/tinyjoml
+- Clojure (@lantiga) - https://github.com/lantiga/clj-joml
 - Clojure (@manicolosi) - https://github.com/manicolosi/clojoml
-- CoffeeScript (@biilmann) - https://github.com/biilmann/coffee-toml
-- Common Lisp (@pnathan) - https://github.com/pnathan/pp-toml
-- D - https://github.com/iccodegr/toml.d
-- Dart (@just95) - https://github.com/just95/toml.dart
-- Erlang - https://github.com/kalta/etoml.git
-- Erlang - https://github.com/kaos/tomle
-- Emacs Lisp (@gongoZ) - https://github.com/gongo/emacs-toml
-- Go (@thompelletier) - https://github.com/pelletier/go-toml
-- Go (@laurent22) - https://github.com/laurent22/toml-go
-- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/toml
-- Go (@achun) - https://github.com/achun/tom-toml
-- Go (@naoina) - https://github.com/naoina/toml
-- Haskell (@seliopou) - https://github.com/seliopou/toml
-- Haxe (@raincole) - https://github.com/raincole/haxetoml
-- Java (@agrison) - https://github.com/agrison/jtoml
-- Java (@johnlcox) - https://github.com/johnlcox/toml4j
-- Java (@mwanji) - https://github.com/mwanji/toml4j
-- Java - https://github.com/asafh/jtoml
-- Java w/ ANTLR (@MatthiasSchuetz) - https://github.com/mschuetz/toml
-- Julia (@pygy) - https://github.com/pygy/TOML.jl
-- Literate CoffeeScript (@JonathanAbrams) - https://github.com/JonAbrams/tomljs
-- Nim (@ziotom78) - https://github.com/ziotom78/parsetoml
-- node.js/browser - https://github.com/ricardobeat/toml.js (npm install tomljs)
-- node.js - https://github.com/BinaryMuse/toml-node
+- CoffeeScript (@biilmann) - https://github.com/biilmann/coffee-joml
+- Common Lisp (@pnathan) - https://github.com/pnathan/pp-joml
+- D - https://github.com/iccodegr/joml.d
+- Dart (@just95) - https://github.com/just95/joml.dart
+- Erlang - https://github.com/kalta/ejoml.git
+- Erlang - https://github.com/kaos/jomle
+- Emacs Lisp (@gongoZ) - https://github.com/gongo/emacs-joml
+- Go (@thompelletier) - https://github.com/pelletier/go-joml
+- Go (@laurent22) - https://github.com/laurent22/joml-go
+- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/joml
+- Go (@achun) - https://github.com/achun/tom-joml
+- Go (@naoina) - https://github.com/naoina/joml
+- Haskell (@seliopou) - https://github.com/seliopou/joml
+- Haxe (@raincole) - https://github.com/raincole/haxejoml
+- Java (@agrison) - https://github.com/agrison/jjoml
+- Java (@johnlcox) - https://github.com/johnlcox/joml4j
+- Java (@mwanji) - https://github.com/mwanji/joml4j
+- Java - https://github.com/asafh/jjoml
+- Java w/ ANTLR (@MatthiasSchuetz) - https://github.com/mschuetz/joml
+- Julia (@pygy) - https://github.com/pygy/JOML.jl
+- Literate CoffeeScript (@JonathanAbrams) - https://github.com/JonAbrams/jomljs
+- Nim (@ziotom78) - https://github.com/ziotom78/parsejoml
+- node.js/browser - https://github.com/ricardobeat/joml.js (npm install jomljs)
+- node.js - https://github.com/BinaryMuse/joml-node
 - node.js/browser (@redhotvengeance) - https://github.com/redhotvengeance/topl (topl npm package)
-- node.js/browser (@alexanderbeletsky) - https://github.com/alexanderbeletsky/toml-js (npm browser amd)
-- Objective C (@mneorr) - https://github.com/mneorr/toml-objc.git
-- Objective-C (@SteveStreza) - https://github.com/amazingsyco/TOML
+- node.js/browser (@alexanderbeletsky) - https://github.com/alexanderbeletsky/joml-js (npm browser amd)
+- Objective C (@mneorr) - https://github.com/mneorr/joml-objc.git
+- Objective-C (@SteveStreza) - https://github.com/amazingsyco/JOML
 - OCaml (@mackwic) https://github.com/mackwic/to.ml
-- Perl (@alexkalderimis) - https://github.com/alexkalderimis/config-toml.pl
-- Perl - https://github.com/dlc/toml
-- PHP (@leonelquinteros) - https://github.com/leonelquinteros/php-toml.git
-- PHP (@jimbomoss) - https://github.com/jamesmoss/toml
-- PHP (@coop182) - https://github.com/coop182/toml-php
-- PHP (@checkdomain) - https://github.com/checkdomain/toml
-- PHP (@zidizei) - https://github.com/zidizei/toml-php
-- PHP (@yosymfony) - https://github.com/yosymfony/toml
-- Python (@f03lipe) - https://github.com/f03lipe/toml-python
-- Python (@uiri) - https://github.com/uiri/toml
-- Python - https://github.com/bryant/pytoml
-- Python (@elssar) - https://github.com/elssar/tomlgun
-- Python (@marksteve) - https://github.com/marksteve/toml-ply
-- Python (@hit9) - https://github.com/hit9/toml.py
-- Racket (@greghendershott) - https://github.com/greghendershott/toml
-- Ruby (@jm) - https://github.com/jm/toml (toml gem)
-- Ruby (@eMancu) - https://github.com/eMancu/toml-rb (toml-rb gem)
-- Ruby (@charliesome) - https://github.com/charliesome/toml2 (toml2 gem)
-- Ruby (@sandeepravi) - https://github.com/sandeepravi/tomlp (tomlp gem)
-- Rust (@mneumann) - https://github.com/mneumann/rust-toml
-- Rust (@alexcrichton) - https://github.com/alexcrichton/toml-rs
+- Perl (@alexkalderimis) - https://github.com/alexkalderimis/config-joml.pl
+- Perl - https://github.com/dlc/joml
+- PHP (@leonelquinteros) - https://github.com/leonelquinteros/php-joml.git
+- PHP (@jimbomoss) - https://github.com/jamesmoss/joml
+- PHP (@coop182) - https://github.com/coop182/joml-php
+- PHP (@checkdomain) - https://github.com/checkdomain/joml
+- PHP (@zidizei) - https://github.com/zidizei/joml-php
+- PHP (@yosymfony) - https://github.com/yosymfony/joml
+- Python (@f03lipe) - https://github.com/f03lipe/joml-python
+- Python (@uiri) - https://github.com/uiri/joml
+- Python - https://github.com/bryant/pyjoml
+- Python (@elssar) - https://github.com/elssar/jomlgun
+- Python (@marksteve) - https://github.com/marksteve/joml-ply
+- Python (@hit9) - https://github.com/hit9/joml.py
+- Racket (@greghendershott) - https://github.com/greghendershott/joml
+- Ruby (@jm) - https://github.com/jm/joml (joml gem)
+- Ruby (@eMancu) - https://github.com/eMancu/joml-rb (joml-rb gem)
+- Ruby (@charliesome) - https://github.com/charliesome/joml2 (joml2 gem)
+- Ruby (@sandeepravi) - https://github.com/sandeepravi/jomlp (jomlp gem)
+- Rust (@mneumann) - https://github.com/mneumann/rust-joml
+- Rust (@alexcrichton) - https://github.com/alexcrichton/joml-rs
 - Scala - https://github.com/axelarge/tomelette
 
 Validators
 ----------
 
-- Go (@BurntSushi) - https://github.com/BurntSushi/toml/tree/master/cmd/tomlv
+- Go (@BurntSushi) - https://github.com/BurntSushi/joml/tree/master/cmd/jomlv
 
-Language agnostic test suite for TOML decoders and encoders
+Language agnostic test suite for JOML decoders and encoders
 -----------------------------------------------------------
 
-- toml-test (@BurntSushi) - https://github.com/BurntSushi/toml-test
+- joml-test (@BurntSushi) - https://github.com/BurntSushi/joml-test
 
 Editor support
 --------------
 
-- Atom - https://github.com/atom/language-toml
-- Emacs (@dryman) - https://github.com/dryman/toml-mode.el
-- Notepad++ (@fireforge) - https://github.com/fireforge/toml-notepadplusplus
-- Sublime Text 2 & 3 (@Gakai) - https://github.com/Gakai/sublime_toml_highlighting
+- Atom - https://github.com/atom/language-joml
+- Emacs (@dryman) - https://github.com/dryman/joml-mode.el
+- Notepad++ (@fireforge) - https://github.com/fireforge/joml-notepadplusplus
+- Sublime Text 2 & 3 (@Gakai) - https://github.com/Gakai/sublime_joml_highlighting
 - Synwrite - http://uvviewsoft.com/synwrite/download.html ; call Options/ Addons manager/ Install
-- TextMate (@infininight) - https://github.com/textmate/toml.tmbundle
-- Vim (@cespare) - https://github.com/cespare/vim-toml
+- TextMate (@infininight) - https://github.com/textmate/joml.tmbundle
+- Vim (@cespare) - https://github.com/cespare/vim-joml
 
 Encoder
 --------------
 
-- Dart (@just95) - https://github.com/just95/toml.dart
-- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/toml
-- PHP (@ayushchd) - https://github.com/ayushchd/php-toml-encoder
+- Dart (@just95) - https://github.com/just95/joml.dart
+- Go w/ Reflection (@BurntSushi) - https://github.com/BurntSushi/joml
+- PHP (@ayushchd) - https://github.com/ayushchd/php-joml-encoder
 
 Converters
 ----------
 
 - remarshal (@dbohdan) - https://github.com/dbohdan/remarshal
-- yaml2toml (@jtyr) - https://github.com/jtyr/yaml2toml-converter
-- yaml2toml.dart (@just95) - https://github.com/just95/yaml2toml.dart
+- yaml2joml (@jtyr) - https://github.com/jtyr/yaml2joml-converter
+- yaml2joml.dart (@just95) - https://github.com/just95/yaml2joml.dart

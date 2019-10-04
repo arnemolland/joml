@@ -1,13 +1,13 @@
-![TOML Logo](../../logos/toml-200.png)
+![JOML Logo](../../logos/joml-200.png)
 
-TOML v0.5.0
+JOML v0.5.0
 ===========
 
-Tom's Obvious, Minimal Language.
+Joe's Obvious, Minimal Language.
 
-By Tom Preston-Werner.
+By Joe.
 
-As of version 0.5.0, TOML should be considered extremely stable. The goal is for
+As of version 0.5.0, JOML should be considered extremely stable. The goal is for
 version 1.0.0 to be backwards compatible (as much as humanly possible) with
 version 0.5.0. All implementations are strongly encouraged to become 0.5.0
 compatible so that the transition to 1.0.0 will be simple when that happens.
@@ -15,8 +15,8 @@ compatible so that the transition to 1.0.0 will be simple when that happens.
 Objectives
 ----------
 
-TOML aims to be a minimal configuration file format that's easy to read due to
-obvious semantics. TOML is designed to map unambiguously to a hash table. TOML
+JOML aims to be a minimal configuration file format that's easy to read due to
+obvious semantics. JOML is designed to map unambiguously to a hash table. JOML
 should be easy to parse into data structures in a wide variety of languages.
 
 Table of contents
@@ -47,13 +47,13 @@ Table of contents
 Example
 -------
 
-```toml
-# This is a TOML document.
+```joml
+# This is a JOML document.
 
-title = "TOML Example"
+title = "JOML Example"
 
 [owner]
-name = "Tom Preston-Werner"
+name = "Joe"
 dob = 1979-05-27T07:32:00-08:00 # First class dates
 
 [database]
@@ -86,8 +86,8 @@ hosts = [
 Spec
 ----
 
-* TOML is case sensitive.
-* A TOML file must be a valid UTF-8 encoded Unicode document.
+* JOML is case sensitive.
+* A JOML file must be a valid UTF-8 encoded Unicode document.
 * Whitespace means tab (0x09) or space (0x20).
 * Newline means LF (0x0A) or CRLF (0x0D0A).
 
@@ -96,7 +96,7 @@ Comment
 
 A hash symbol marks the rest of the line as a comment.
 
-```toml
+```joml
 # This is a full-line comment
 key = "value" # This is a comment at the end of a line
 ```
@@ -104,20 +104,20 @@ key = "value" # This is a comment at the end of a line
 Key/Value Pair
 --------------
 
-The primary building block of a TOML document is the key/value pair.
+The primary building block of a JOML document is the key/value pair.
 
 Keys are on the left of the equals sign and values are on the right. Whitespace
 is ignored around key names and values. The key, equals sign, and value must be
 on the same line (though some values can be broken over multiple lines).
 
-```toml
+```joml
 key = "value"
 ```
 
 Values must be of the following types: String, Integer, Float, Boolean,
 Datetime, Array, or Inline Table. Unspecified values are invalid.
 
-```toml
+```joml
 key = # INVALID
 ```
 
@@ -130,7 +130,7 @@ A key may be either bare, quoted or dotted.
 dashes (`A-Za-z0-9_-`). Note that bare keys are allowed to be composed of only
 ASCII digits, e.g. `1234`, but are always interpreted as strings.
 
-```toml
+```joml
 key = "value"
 bare_key = "value"
 bare-key = "value"
@@ -141,7 +141,7 @@ bare-key = "value"
 strings and allow you to use a much broader set of key names. Best practice is
 to use bare keys except when absolutely necessary.
 
-```toml
+```joml
 "127.0.0.1" = "value"
 "character encoding" = "value"
 "ʎǝʞ" = "value"
@@ -152,7 +152,7 @@ to use bare keys except when absolutely necessary.
 A bare key must be non-empty, but an empty quoted key is allowed (though
 discouraged).
 
-```toml
+```joml
 = "no key name"  # INVALID
 "" = "blank"     # VALID but discouraged
 '' = 'blank'     # VALID but discouraged
@@ -161,7 +161,7 @@ discouraged).
 **Dotted keys** are a sequence of bare or quoted keys joined with a dot. This
 allows for grouping similar properties together:
 
-```toml
+```joml
 name = "Orange"
 physical.color = "orange"
 physical.shape = "round"
@@ -190,7 +190,7 @@ Defining a key multiple times is invalid.
 
 ```
 # DO NOT DO THIS
-name = "Tom"
+name = "Joe"
 name = "Pradyun"
 ```
 
@@ -218,7 +218,7 @@ multi-line literal. All strings must contain only valid UTF-8 characters.
 be used except those that must be escaped: quotation mark, backslash, and the
 control characters (U+0000 to U+001F, U+007F).
 
-```toml
+```joml
 str = "I'm a string. \"You can quote me\". Name\tJos\u00E9\nLocation\tSF."
 ```
 
@@ -239,26 +239,26 @@ For convenience, some popular characters have a compact escape sequence.
 Any Unicode character may be escaped with the `\uXXXX` or `\UXXXXXXXX` forms.
 The escape codes must be valid Unicode [scalar values](http://unicode.org/glossary/#unicode_scalar_value).
 
-All other escape sequences not listed above are reserved and, if used, TOML
+All other escape sequences not listed above are reserved and, if used, JOML
 should produce an error.
 
 Sometimes you need to express passages of text (e.g. translation files) or would
-like to break up a very long string into multiple lines. TOML makes this easy.
+like to break up a very long string into multiple lines. JOML makes this easy.
 
 **Multi-line basic strings** are surrounded by three quotation marks on each
 side and allow newlines. A newline immediately following the opening delimiter
 will be trimmed. All other whitespace and newline characters remain intact.
 
-```toml
+```joml
 str1 = """
 Roses are red
 Violets are blue"""
 ```
 
-TOML parsers should feel free to normalize newline to whatever makes sense for
+JOML parsers should feel free to normalize newline to whatever makes sense for
 their platform.
 
-```toml
+```joml
 # On a Unix system, the above multi-line string will most likely be the same as:
 str2 = "Roses are red\nViolets are blue"
 
@@ -272,7 +272,7 @@ will be trimmed along with all whitespace (including newlines) up to the next
 non-whitespace character or closing delimiter. All of the escape sequences that
 are valid for basic strings are also valid for multi-line basic strings.
 
-```toml
+```joml
 # The following strings are byte-for-byte equivalent:
 str1 = "The quick brown fox jumps over the lazy dog."
 
@@ -296,21 +296,21 @@ be escaped unless their presence would create a premature closing delimiter.
 
 If you're a frequent specifier of Windows paths or regular expressions, then
 having to escape backslashes quickly becomes tedious and error prone. To help,
-TOML supports literal strings which do not allow escaping at all.
+JOML supports literal strings which do not allow escaping at all.
 
 **Literal strings** are surrounded by single quotes. Like basic strings, they
 must appear on a single line:
 
-```toml
+```joml
 # What you see is what you get.
 winpath  = 'C:\Users\nodejs\templates'
 winpath2 = '\\ServerX\admin$\system32\'
-quoted   = 'Tom "Dubs" Preston-Werner'
+quoted   = 'Joe "Dubs"'
 regex    = '<\i\c*\s*>'
 ```
 
 Since there is no escaping, there is no way to write a single quote inside a
-literal string enclosed by single quotes. Luckily, TOML supports a multi-line
+literal string enclosed by single quotes. Luckily, JOML supports a multi-line
 version of literal strings that solves this problem.
 
 **Multi-line literal strings** are surrounded by three single quotes on each
@@ -318,7 +318,7 @@ side and allow newlines. Like literal strings, there is no escaping whatsoever.
 A newline immediately following the opening delimiter will be trimmed. All
 other content between the delimiters is interpreted as-is without modification.
 
-```toml
+```joml
 regex2 = '''I [dw]on't need \d{2} apples'''
 lines  = '''
 The first newline is
@@ -338,7 +338,7 @@ Integer
 Integers are whole numbers. Positive numbers may be prefixed with a plus sign.
 Negative numbers are prefixed with a minus sign.
 
-```toml
+```joml
 int1 = +99
 int2 = 42
 int3 = 0
@@ -349,7 +349,7 @@ For large numbers, you may use underscores between digits to enhance
 readability. Each underscore must be surrounded by at least one digit on each
 side.
 
-```toml
+```joml
 int5 = 1_000
 int6 = 5_349_221
 int7 = 1_2_3_4_5     # VALID but discouraged
@@ -363,7 +363,7 @@ binary. In these formats, leading zeros are allowed (after the prefix). Hex
 values are case insensitive. Underscores are allowed between digits (but not
 between the prefix and the value).
 
-```toml
+```joml
 # hexadecimal with prefix `0x`
 hex1 = 0xDEADBEEF
 hex2 = 0xdeadbeef
@@ -390,7 +390,7 @@ values) followed by a fractional part and/or an exponent part. If both a
 fractional part and exponent part are present, the fractional part must precede
 the exponent part.
 
-```toml
+```joml
 # fractional
 flt1 = +1.0
 flt2 = 3.1415
@@ -413,7 +413,7 @@ An exponent part is an E (upper or lower case) followed by an integer part
 Similar to integers, you may use underscores to enhance readability. Each
 underscore must be surrounded by at least one digit.
 
-```toml
+```joml
 flt8 = 9_224_617.445_991_228_313
 ```
 
@@ -421,7 +421,7 @@ Float values `-0.0` and `+0.0` are valid and should map according to IEEE 754.
 
 Special float values can also be expressed. They are always lowercase.
 
-```toml
+```joml
 # infinity
 sf1 = inf  # positive infinity
 sf2 = +inf # positive infinity
@@ -438,7 +438,7 @@ Boolean
 
 Booleans are just the tokens you're used to. Always lowercase.
 
-```toml
+```joml
 bool1 = true
 bool2 = false
 ```
@@ -449,7 +449,7 @@ Offset Date-Time
 To unambiguously represent a specific instant in time, you may use an
 [RFC 3339](http://tools.ietf.org/html/rfc3339) formatted date-time with offset.
 
-```toml
+```joml
 odt1 = 1979-05-27T07:32:00Z
 odt2 = 1979-05-27T00:32:00-07:00
 odt3 = 1979-05-27T00:32:00.999999-07:00
@@ -458,7 +458,7 @@ odt3 = 1979-05-27T00:32:00.999999-07:00
 For the sake of readability, you may replace the T delimiter between date and
 time with a space (as permitted by RFC 3339 section 5.6).
 
-```toml
+```joml
 odt4 = 1979-05-27 07:32:00Z
 ```
 
@@ -476,7 +476,7 @@ to an offset or timezone. It cannot be converted to an instant in time without
 additional information. Conversion to an instant, if required, is implementation
 specific.
 
-```toml
+```joml
 ldt1 = 1979-05-27T07:32:00
 ldt2 = 1979-05-27T00:32:00.999999
 ```
@@ -493,7 +493,7 @@ If you include only the date portion of an
 [RFC 3339](http://tools.ietf.org/html/rfc3339) formatted date-time, it will
 represent that entire day without any relation to an offset or timezone.
 
-```toml
+```joml
 ld1 = 1979-05-27
 ```
 
@@ -505,7 +505,7 @@ If you include only the time portion of an [RFC
 that time of day without any relation to a specific day or any offset or
 timezone.
 
-```toml
+```joml
 lt1 = 07:32:00
 lt2 = 00:32:00.999999
 ```
@@ -523,7 +523,7 @@ are separated by commas. Data types may not be mixed (different ways to define
 strings should be considered the same type, and so should arrays with different
 element types).
 
-```toml
+```joml
 arr1 = [ 1, 2, 3 ]
 arr2 = [ "red", "yellow", "green" ]
 arr3 = [ [ 1, 2 ], [3, 4, 5] ]
@@ -537,7 +537,7 @@ Arrays can also be multiline. Terminating commas (also called trailing commas)
 are ok after the last value of the array. There can be an arbitrary number of
 newlines and comments before a value and before the closing bracket.
 
-```toml
+```joml
 arr7 = [
   1, 2, 3
 ]
@@ -555,14 +555,14 @@ Tables (also known as hash tables or dictionaries) are collections of key/value
 pairs. They appear in square brackets on a line by themselves. You can tell them
 apart from arrays because arrays are only ever values.
 
-```toml
+```joml
 [table]
 ```
 
 Under that, and until the next table or EOF are the key/values of that table.
 Key/value pairs within tables are not guaranteed to be in any specific order.
 
-```toml
+```joml
 [table-1]
 key1 = "some string"
 key2 = 123
@@ -574,7 +574,7 @@ key2 = 456
 
 Naming rules for tables are the same as for keys (see definition of Keys above).
 
-```toml
+```joml
 [dog."tater.man"]
 type.name = "pug"
 ```
@@ -588,17 +588,17 @@ In JSON land, that would give you the following structure:
 Whitespace around the key is ignored, however, best practice is to not use any
 extraneous whitespace.
 
-```toml
+```joml
 [a.b.c]            # this is best practice
 [ d.e.f ]          # same as [d.e.f]
 [ g .  h  . i ]    # same as [g.h.i]
 [ j . "ʞ" . 'l' ]  # same as [j."ʞ".'l']
 ```
 
-You don't need to specify all the super-tables if you don't want to. TOML knows
+You don't need to specify all the super-tables if you don't want to. JOML knows
 how to do it for you.
 
-```toml
+```joml
 # [x] you
 # [x.y] don't
 # [x.y.z] need these
@@ -644,8 +644,8 @@ between the curly braces unless they are valid within a value. Even so, it is
 strongly discouraged to break an inline table onto multiples lines. If you find
 yourself gripped with this desire, it means you should be using standard tables.
 
-```toml
-name = { first = "Tom", last = "Preston-Werner" }
+```joml
+name = { first = "Joe", last = "Preston-Werner" }
 point = { x = 1, y = 2 }
 animal = { type.name = "pug" }
 ```
@@ -653,9 +653,9 @@ animal = { type.name = "pug" }
 The inline tables above are identical to the following standard table
 definitions:
 
-```toml
+```joml
 [name]
-first = "Tom"
+first = "Joe"
 last = "Preston-Werner"
 
 [point]
@@ -676,7 +676,7 @@ double bracketed name will be an element in the array. The tables are inserted
 in the order encountered. A double bracketed table without any key/value pairs
 will be considered an empty table.
 
-```toml
+```joml
 [[products]]
 name = "Hammer"
 sku = 738594937
@@ -705,7 +705,7 @@ You can create nested arrays of tables as well. Just use the same double bracket
 syntax on sub-tables. Each double-bracketed sub-table will belong to the most
 recently defined table element above it.
 
-```toml
+```joml
 [[fruit]]
   name = "apple"
 
@@ -726,7 +726,7 @@ recently defined table element above it.
     name = "plantain"
 ```
 
-The above TOML maps to the following JSON.
+The above JOML maps to the following JSON.
 
 ```json
 {
@@ -755,8 +755,8 @@ The above TOML maps to the following JSON.
 Attempting to append to a statically defined array, even if that array is empty
 or of compatible type, must produce an error at parse time.
 
-```toml
-# INVALID TOML DOC
+```joml
+# INVALID JOML DOC
 fruit = []
 
 [[fruit]] # Not allowed
@@ -766,7 +766,7 @@ Attempting to define a normal table with the same name as an already established
 array must produce an error at parse time.
 
 ```
-# INVALID TOML DOC
+# INVALID JOML DOC
 [[fruit]]
   name = "apple"
 
@@ -780,7 +780,7 @@ array must produce an error at parse time.
 
 You may also use inline tables where appropriate:
 
-```toml
+```joml
 points = [ { x = 1, y = 2, z = 3 },
            { x = 7, y = 8, z = 9 },
            { x = 2, y = 4, z = 8 } ]
@@ -789,28 +789,28 @@ points = [ { x = 1, y = 2, z = 3 },
 Filename Extension
 ------------------
 
-TOML files should use the extension `.toml`.
+JOML files should use the extension `.joml`.
 
 MIME Type
 ---------
 
-When transferring TOML files over the internet, the appropriate MIME type is
-`application/toml`.
+When transferring JOML files over the internet, the appropriate MIME type is
+`application/joml`.
 
 Comparison with Other Formats
 -----------------------------
 
-In some ways TOML is very similar to JSON: simple, well-specified, and
+In some ways JOML is very similar to JSON: simple, well-specified, and
 maps easily to ubiquitous data types. JSON is great for serializing
 data that will mostly be read and written by computer programs. Where
-TOML differs from JSON is its emphasis on being easy for humans to
+JOML differs from JSON is its emphasis on being easy for humans to
 read and write. Comments are a good example: they serve no purpose
 when data is being sent from one program to another, but are very
 helpful in a configuration file that may be edited by hand.
 
 The YAML format is oriented towards configuration files just like
-TOML. For many purposes, however, YAML is an overly complex
-solution. TOML aims for simplicity, a goal which is not apparent in
+JOML. For many purposes, however, YAML is an overly complex
+solution. JOML aims for simplicity, a goal which is not apparent in
 the YAML specification: http://www.yaml.org/spec/1.2/spec.html
 
 The INI format is also frequently used for configuration files. The
@@ -826,16 +826,16 @@ are welcome!
 Wiki
 ----------------------------------------------------------------------
 
-We have an [Official TOML Wiki](https://github.com/toml-lang/toml/wiki) that
+We have an [Official JOML Wiki](https://github.com/joml-lang/joml/wiki) that
 catalogs the following:
 
-* Projects using TOML
+* Projects using JOML
 * Implementations
 * Validators
-* Language agnostic test suite for TOML decoders and encoders
+* Language agnostic test suite for JOML decoders and encoders
 * Editor support
 * Encoders
 * Converters
 
 Please take a look if you'd like to view or add to that list. Thanks for being
-a part of the TOML community!
+a part of the JOML community!

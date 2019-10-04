@@ -1,9 +1,9 @@
-# This is a TOML document. Boom.
+# This is a JOML document. Boom.
 
-title = "TOML Example"
+title = "JOML Example"
 
 [owner]
-name = "Tom Preston-Werner"
+name = "Joe"
 organization = "GitHub"
 bio = "GitHub Cofounder & CEO\nLikes tater tots and beer."
 dob = 1979-05-27T07:32:00Z # First class dates? Why not?
@@ -16,7 +16,7 @@ enabled = true
 
 [servers]
 
-  # You can indent as you please. Tabs or spaces. TOML don't care.
+  # You can indent as you please. Tabs or spaces. JOML don't care.
   [servers.alpha]
   ip = "10.0.0.1"
   dc = "eqdc10"

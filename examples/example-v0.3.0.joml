@@ -14,7 +14,7 @@ key = "value" # Yeah, you can do this.
 [dog.tater]
 type = "pug"
 
-# You don't need to specify all the super-tables if you don't want to. TOML knows how to do it for you.
+# You don't need to specify all the super-tables if you don't want to. JOML knows how to do it for you.
 
 # [x] you
 # [x.y] don't
@@ -60,7 +60,7 @@ key3 = """\
 # What you see is what you get.
 winpath  = 'C:\Users\nodejs\templates'
 winpath2 = '\\ServerX\admin$\system32\'
-quoted   = 'Tom "Dubs" Preston-Werner'
+quoted   = 'Joe "Dubs"'
 regex    = '<\i\c*\s*>'
 
 

@@ -22,7 +22,7 @@ key = "value" # Yeah, you can do this.
 
 key = "another value"
 
-# You don't need to specify all the super-tables if you don't want to. TOML
+# You don't need to specify all the super-tables if you don't want to. JOML
 # knows how to do it for you.
 
 # [x] you
@@ -41,7 +41,7 @@ key = "another value"
 
 [table.inline]
 
-name = { first = "Tom", last = "Preston-Werner" }
+name = { first = "Joe", last = "Preston-Werner" }
 point = { x = 1, y = 2 }
 
 
@@ -87,7 +87,7 @@ key3 = """\
 # What you see is what you get.
 winpath  = 'C:\Users\nodejs\templates'
 winpath2 = '\\ServerX\admin$\system32\'
-quoted   = 'Tom "Dubs" Preston-Werner'
+quoted   = 'Joe "Dubs"'
 regex    = '<\i\c*\s*>'
 
 

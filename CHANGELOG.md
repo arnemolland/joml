@@ -1,4 +1,4 @@
-# TOML Changelog
+# JOML Changelog
 
 ## Unreleased
 
@@ -22,18 +22,18 @@
 * Allow space (instead of T) to separate date and time in Date-Time.
 * Allow accidental whitespace between backslash and newline in the line
   continuation operator in multi-line basic strings.
-* Specify that the standard file extension is `.toml`.
-* Specify that MIME type is `application/toml`
+* Specify that the standard file extension is `.joml`.
+* Specify that MIME type is `application/joml`
 * Clarify that U+007F is an escape character.
 * Clarify that keys are always strings.
 * Clarify that you cannot use array-of-table to append to a static array.
-* Clarify that a TOML file must be a valid UTF-8 document.
+* Clarify that a JOML file must be a valid UTF-8 document.
 * Clarify valid Array values.
 * Clarify that literal strings can be table keys.
 * Clarify that at least millisecond precision expected for Date-Time and Time.
 * Clarify that comments are OK in multiline arrays.
 * Clarify that +0, -0, +0.0, and -0.0 are valid and what they mean.
-* TOML has a logo!
+* JOML has a logo!
 
 ## 0.4.0 / 2015-02-12
 
@@ -62,6 +62,6 @@
 
 ## 0.1.0 / 2013-03-17
 
-* From Twitter rage to reality; TOML is now a thing.
+* From Twitter rage to reality; JOML is now a thing.
 * First proper release.
-* TOML adheres to the SemVer standard for version numbers.
+* JOML adheres to the SemVer standard for version numbers.

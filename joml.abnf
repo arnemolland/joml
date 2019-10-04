@@ -1,18 +1,18 @@
 ;; WARNING: This document is a work-in-progress and should not be considered
 ;; authoritative until further notice.
 
-;; This is an attempt to define TOML in ABNF according to the grammar defined
+;; This is an attempt to define JOML in ABNF according to the grammar defined
 ;; in RFC 5234 (http://www.ietf.org/rfc/rfc5234.txt).
 
 ;; You can try out this grammar using http://instaparse.mojombo.com/
 ;; To do so, in the lower right, click on Options and change `:input-format` to
 ;; ':abnf'. Then paste this entire ABNF document into the grammar entry box
-;; (above the options). Then you can type or paste a sample TOML document into
+;; (above the options). Then you can type or paste a sample JOML document into
 ;; the beige box on the left. Tada!
 
 ;; Overall Structure
 
-toml = expression *( newline expression )
+joml = expression *( newline expression )
 
 expression =  ws [ comment ]
 expression =/ ws keyval ws [ comment ]
